@@ -1,8 +1,8 @@
-package luiz.api_partners.infra.gateway;
+package ldelivery.api_partners.infra.gateway;
 
-import luiz.api_partners.infra.controller.AddressDto;
-import luiz.api_partners.domain.geolocation.Address;
-import luiz.api_partners.infra.persistence.AddressEntity;
+import ldelivery.api_partners.domain.geolocation.Address;
+import ldelivery.api_partners.infra.controller.AddressDto;
+import ldelivery.api_partners.infra.persistence.AddressEntity;
 
 public class AddressMapper {
 

@@ -1,4 +1,4 @@
-package luiz.api_partners.infra.controller;
+package ldelivery.api_partners.infra.controller;
 
 import jakarta.validation.constraints.NotNull;
 

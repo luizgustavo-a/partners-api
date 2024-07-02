@@ -1,8 +1,8 @@
-package luiz.api_partners.infra.gateway;
+package ldelivery.api_partners.infra.gateway;
 
-import luiz.api_partners.infra.controller.CoverageAreaDto;
-import luiz.api_partners.domain.geolocation.CoverageArea;
-import luiz.api_partners.infra.persistence.CoverageAreaEntity;
+import ldelivery.api_partners.domain.geolocation.CoverageArea;
+import ldelivery.api_partners.infra.controller.CoverageAreaDto;
+import ldelivery.api_partners.infra.persistence.CoverageAreaEntity;
 
 public class CoverageAreaMapper {
 

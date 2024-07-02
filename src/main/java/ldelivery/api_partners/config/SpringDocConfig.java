@@ -1,4 +1,4 @@
-package luiz.api_partners.config;
+package ldelivery.api_partners.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

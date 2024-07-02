@@ -1,12 +1,13 @@
-package luiz.api_partners.config;
+package ldelivery.api_partners.config;
 
-import luiz.api_partners.application.gateway.PartnerRepository;
+import ldelivery.api_partners.application.gateway.PartnerRepository;
+import ldelivery.api_partners.application.usecases.*;
 import luiz.api_partners.application.usecases.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import luiz.api_partners.infra.gateway.PartnerMapper;
-import luiz.api_partners.infra.gateway.PartnerRepositoryJpa;
-import luiz.api_partners.infra.persistence.PartnerRepositoryPersistence;
+import ldelivery.api_partners.infra.gateway.PartnerMapper;
+import ldelivery.api_partners.infra.gateway.PartnerRepositoryJpa;
+import ldelivery.api_partners.infra.persistence.PartnerRepositoryPersistence;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 @Configuration

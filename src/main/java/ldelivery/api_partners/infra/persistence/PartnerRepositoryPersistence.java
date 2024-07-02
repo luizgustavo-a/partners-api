@@ -1,4 +1,4 @@
-package luiz.api_partners.infra.persistence;
+package ldelivery.api_partners.infra.persistence;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,7 @@
-package luiz.api_partners.domain.entities.partner;
+package ldelivery.api_partners.domain.entities.partner;
 
-import luiz.api_partners.domain.geolocation.Address;
-import luiz.api_partners.domain.geolocation.CoverageArea;
+import ldelivery.api_partners.domain.geolocation.Address;
+import ldelivery.api_partners.domain.geolocation.CoverageArea;
 
 public class Partner {
     private Long id;

@@ -1,4 +1,4 @@
-package luiz.api_partners.infra.persistence;
+package ldelivery.api_partners.infra.persistence;
 
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;

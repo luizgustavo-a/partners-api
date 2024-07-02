@@ -8,7 +8,7 @@
 		<version>3.3.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>luiz</groupId>
+	<groupId>L-Delivery</groupId>
 	<artifactId>api_partners</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api_partners</name>

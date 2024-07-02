@@ -1,4 +1,4 @@
-package luiz.api_partners.infra.gateway;
+package ldelivery.api_partners.infra.gateway;
 
 import org.locationtech.jts.geom.*;
 

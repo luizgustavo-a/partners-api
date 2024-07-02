@@ -1,14 +1,11 @@
-package luiz.api_partners.infra.persistence;
+package ldelivery.api_partners.infra.persistence;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import luiz.api_partners.domain.entities.partner.Partner;
-import luiz.api_partners.infra.controller.UpdatePartnerDto;
-import luiz.api_partners.infra.gateway.AddressMapper;
-import luiz.api_partners.infra.gateway.CoverageAreaMapper;
-
-import java.util.Optional;
+import ldelivery.api_partners.domain.entities.partner.Partner;
+import ldelivery.api_partners.infra.gateway.AddressMapper;
+import ldelivery.api_partners.infra.gateway.CoverageAreaMapper;
 
 @Entity
 @Table(name = "partners")

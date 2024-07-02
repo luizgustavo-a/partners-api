@@ -1,7 +1,7 @@
-package luiz.api_partners.application.usecases;
+package ldelivery.api_partners.application.usecases;
 
-import luiz.api_partners.application.gateway.PartnerRepository;
-import luiz.api_partners.domain.entities.partner.Partner;
+import ldelivery.api_partners.application.gateway.PartnerRepository;
+import ldelivery.api_partners.domain.entities.partner.Partner;
 
 public class SearchPartner {
 

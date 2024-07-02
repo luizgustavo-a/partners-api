@@ -1,4 +1,4 @@
-package luiz.api_partners;
+package ldelivery.api_partners;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

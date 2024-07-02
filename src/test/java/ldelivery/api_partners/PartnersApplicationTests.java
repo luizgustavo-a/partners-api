@@ -1,4 +1,4 @@
-package luiz.api_partners;
+package ldelivery.api_partners;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

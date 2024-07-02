@@ -1,9 +1,9 @@
-package luiz.api_partners.infra.controller;
+package ldelivery.api_partners.infra.controller;
 
 import jakarta.validation.Valid;
-import luiz.api_partners.application.usecases.*;
-import luiz.api_partners.domain.entities.partner.Partner;
-import luiz.api_partners.infra.gateway.PartnerMapper;
+import ldelivery.api_partners.application.usecases.*;
+import ldelivery.api_partners.domain.entities.partner.Partner;
+import ldelivery.api_partners.infra.gateway.PartnerMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

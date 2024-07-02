@@ -1,9 +1,9 @@
-package luiz.api_partners.infra.gateway;
+package ldelivery.api_partners.infra.gateway;
 
-import luiz.api_partners.infra.controller.PartnerDto;
-import luiz.api_partners.domain.entities.partner.Partner;
-import luiz.api_partners.infra.controller.UpdatePartnerDto;
-import luiz.api_partners.infra.persistence.PartnerEntity;
+import ldelivery.api_partners.domain.entities.partner.Partner;
+import ldelivery.api_partners.infra.controller.PartnerDto;
+import ldelivery.api_partners.infra.controller.UpdatePartnerDto;
+import ldelivery.api_partners.infra.persistence.PartnerEntity;
 
 public class PartnerMapper {
 

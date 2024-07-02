@@ -1,10 +1,10 @@
-package luiz.api_partners.infra.gateway;
+package ldelivery.api_partners.infra.gateway;
 
-import luiz.api_partners.domain.entities.partner.Partner;
-import luiz.api_partners.domain.geolocation.Address;
-import luiz.api_partners.domain.geolocation.CoverageArea;
-import luiz.api_partners.infra.persistence.PartnerEntity;
-import luiz.api_partners.infra.persistence.PartnerRepositoryPersistence;
+import ldelivery.api_partners.domain.entities.partner.Partner;
+import ldelivery.api_partners.domain.geolocation.Address;
+import ldelivery.api_partners.domain.geolocation.CoverageArea;
+import ldelivery.api_partners.infra.persistence.PartnerEntity;
+import ldelivery.api_partners.infra.persistence.PartnerRepositoryPersistence;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 

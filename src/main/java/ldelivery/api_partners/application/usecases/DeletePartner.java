@@ -1,6 +1,6 @@
-package luiz.api_partners.application.usecases;
+package ldelivery.api_partners.application.usecases;
 
-import luiz.api_partners.application.gateway.PartnerRepository;
+import ldelivery.api_partners.application.gateway.PartnerRepository;
 
 public class DeletePartner {
 

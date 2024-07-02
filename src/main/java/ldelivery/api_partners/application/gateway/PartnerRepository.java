@@ -1,6 +1,6 @@
-package luiz.api_partners.application.gateway;
+package ldelivery.api_partners.application.gateway;
 
-import luiz.api_partners.domain.entities.partner.Partner;
+import ldelivery.api_partners.domain.entities.partner.Partner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

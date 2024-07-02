@@ -1,4 +1,4 @@
-package luiz.api_partners.domain.geolocation;
+package ldelivery.api_partners.domain.geolocation;
 
 import org.locationtech.jts.geom.Point;
 
