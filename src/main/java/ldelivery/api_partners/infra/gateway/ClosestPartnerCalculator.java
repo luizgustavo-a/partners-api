@@ -61,7 +61,7 @@ public class ClosestPartnerCalculator {
                 Math.pow(coordinatesBefore.getY() - coordinatesAfter.getY(), 2);
     }
 
-    private Boolean containsCoordinate (MultiPolygon polygon, Point coordinate) {
+    public Boolean containsCoordinate (MultiPolygon polygon, Point coordinate) {
         return polygon.contains(coordinate);
     }
 

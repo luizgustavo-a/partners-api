@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/partners")
@@ -65,12 +66,24 @@ public class PartnerController {
         }
     }
 
-    @GetMapping("search/lat={latitude}&long={longitude}")
+    @GetMapping("search/closest/lat={latitude}&long={longitude}")
     public ResponseEntity<PartnerDto> searchPartner (@PathVariable Double latitude,
                                                      @PathVariable Double longitude) {
         try {
             var partner = searchPartner.searchPartner(latitude, longitude);
             return ResponseEntity.ok(partnerMapper.toDto(partner));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("search/lat={latitude}&long={longitude}")
+    public ResponseEntity<List<PartnerDto>> searchPartnersInAddress (@PathVariable Double latitude,
+                                                                     @PathVariable Double longitude) {
+        try {
+            return ResponseEntity.ok(searchPartner.searchPartnersInAddress(latitude, longitude)
+                    .stream().map(partnerMapper::toDto)
+                    .collect(Collectors.toList()));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

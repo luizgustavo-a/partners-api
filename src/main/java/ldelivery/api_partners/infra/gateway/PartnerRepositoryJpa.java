@@ -5,12 +5,15 @@ import ldelivery.api_partners.domain.entities.partner.Partner;
 import ldelivery.api_partners.infra.persistence.PartnerEntity;
 import ldelivery.api_partners.infra.persistence.PartnerRepositoryPersistence;
 import jakarta.persistence.EntityNotFoundException;
+import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PartnerRepositoryJpa implements PartnerRepository {
 
@@ -43,6 +46,17 @@ public class PartnerRepositoryJpa implements PartnerRepository {
     @Override
     public Page<Partner> loadAllPartners(@PageableDefault Pageable pageable) {
         return repository.findAllByActiveTrue(pageable).map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Partner> searchPartnersInAddress(Double latitude, Double longitude) {
+        ClosestPartnerCalculator calculator = new ClosestPartnerCalculator(repository);
+        Point coordinates = GeoJsonConverter.toPoint(latitude, longitude);
+        return repository.findAllByActiveTrue()
+                .stream()
+                .filter(p -> calculator.containsCoordinate(p.getCoverageArea().getCoverageArea(), coordinates))
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
