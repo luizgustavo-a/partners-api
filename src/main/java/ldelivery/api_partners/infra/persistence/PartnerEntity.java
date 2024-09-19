@@ -72,17 +72,17 @@ public class PartnerEntity {
     }
 
     public void updatePartner(Partner partner) {
-        if (partner.getTradingName() != null) {
+        if (partner.getTradingName() != null && !partner.getTradingName().isEmpty()) {
             this.tradingName = partner.getTradingName();
         }
-        if (partner.getOwnerName() != null) {
+        if (partner.getOwnerName() != null && !partner.getOwnerName().isEmpty()) {
             this.ownerName = partner.getOwnerName();
         }
-        if (partner.getCoverageArea() != null) {
+        if (partner.getCoverageArea() != null && !partner.getCoverageArea().getCoverageArea().isEmpty()) {
             CoverageAreaMapper coverageAreaMapper = new CoverageAreaMapper();
             this.coverageArea = coverageAreaMapper.toEntity(partner.getCoverageArea());
         }
-        if (partner.getAddress() != null) {
+        if (partner.getAddress() != null && !partner.getAddress().getAdress().isEmpty()) {
             AddressMapper addressMapper = new AddressMapper();
             this.address = addressMapper.toEntity(partner.getAddress());
         }

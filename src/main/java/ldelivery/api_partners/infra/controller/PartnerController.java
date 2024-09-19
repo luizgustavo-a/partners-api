@@ -3,18 +3,16 @@ package ldelivery.api_partners.infra.controller;
 import jakarta.validation.Valid;
 import ldelivery.api_partners.application.usecases.*;
 import ldelivery.api_partners.domain.entities.partner.Partner;
+import ldelivery.api_partners.infra.controller.dto.PartnerDto;
+import ldelivery.api_partners.infra.controller.dto.UpdatePartnerDto;
 import ldelivery.api_partners.infra.gateway.PartnerMapper;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/partners")
@@ -37,60 +35,45 @@ public class PartnerController {
     }
 
     @PostMapping
-    public ResponseEntity<PartnerDto> createPartner (@RequestBody @Valid PartnerDto dto) {
-        try{
-            Partner partner = createPartner.createPartner(partnerMapper.toDomain(dto));
-            PartnerDto partnerDto = partnerMapper.toDto(partner);
-            return ResponseEntity.ok(partnerDto);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @PostMapping("/populate-database")
-    public ResponseEntity<List<PartnerDto>> createPartner (@RequestBody MultiplePartnersDto dto) {
-        List<PartnerDto> partnerDtoList = new ArrayList<>();
-        for (PartnerDto partner : dto.pdvs()) {
-            createPartner(partner);
-        }
-        return ResponseEntity.ok(partnerDtoList);
+    public ResponseEntity<PartnerDto> createPartner(@RequestBody @Valid PartnerDto dto) {
+        Partner partner = createPartner.createPartner(partnerMapper.toDomain(dto));
+        PartnerDto partnerDto = partnerMapper.toDto(partner);
+        return ResponseEntity.ok(partnerDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PartnerDto> loadPartnerById (@PathVariable Long id) {
-        try {
-            Partner partner= loadPartner.loadPartnerById(id);
-            return ResponseEntity.ok(partnerMapper.toDto(partner));
-        } catch (NoSuchElementException e){
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<PartnerDto> loadPartnerById(@PathVariable Long id) {
+        Partner partner = loadPartner.loadPartnerById(id);
+        return ResponseEntity.ok(partnerMapper.toDto(partner));
     }
 
-    @GetMapping("search/closest/lat={latitude}&long={longitude}")
-    public ResponseEntity<PartnerDto> searchPartner (@PathVariable Double latitude,
-                                                     @PathVariable Double longitude) {
-        try {
-            var partner = searchPartner.searchPartner(latitude, longitude);
-            return ResponseEntity.ok(partnerMapper.toDto(partner));
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("search/closest")
+    public ResponseEntity<PartnerDto> searchPartner(@RequestParam Double latitude,
+                                                    @RequestParam Double longitude) {
+        var partner = searchPartner.searchPartner(latitude, longitude);
+        return ResponseEntity.ok(partnerMapper.toDto(partner));
     }
 
-    @GetMapping("search/lat={latitude}&long={longitude}")
-    public ResponseEntity<List<PartnerDto>> searchPartnersInAddress (@PathVariable Double latitude,
-                                                                     @PathVariable Double longitude) {
-        try {
-            return ResponseEntity.ok(searchPartner.searchPartnersInAddress(latitude, longitude)
-                    .stream().map(partnerMapper::toDto)
-                    .collect(Collectors.toList()));
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("search")
+    public ResponseEntity<Page<PartnerDto>> searchPartnersInAddress(@RequestParam Double latitude,
+                                                                    @RequestParam Double longitude,
+                                                                    @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                    @RequestParam(value = "size", defaultValue = "10") int size,
+                                                                    @RequestParam(value = "sort", defaultValue = "id") String sort
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        var paginatedPartners = searchPartner.searchPartnersInAddress(latitude, longitude, pageable);
+
+        return ResponseEntity.ok(paginatedPartners.map(partnerMapper::toDto));
     }
 
     @GetMapping
-    public ResponseEntity<Page<PartnerDto>> loadPartners(Pageable pageable) {
+    public ResponseEntity<Page<PartnerDto>> loadPartners(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "id") String sort
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         return ResponseEntity.ok(loadPartner.loadAllPartners(pageable).map(partnerMapper::toDto));
     }
 
@@ -98,15 +81,14 @@ public class PartnerController {
     @Transactional
     public ResponseEntity<PartnerDto> updatePartner(@RequestBody @Valid UpdatePartnerDto dto) {
         var partner = partnerMapper.toDomain(dto);
-        updatePartner.updatePartner(partner);
-        return ResponseEntity.ok(partnerMapper.toDto(partner));
+        return ResponseEntity.ok(partnerMapper.toDto(updatePartner.updatePartner(partner)));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity delete(@PathVariable Long id) {
-        deletePartner.deletePartner(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<PartnerDto> delete(@PathVariable Long id) {
+        var partner = deletePartner.deletePartner(id);
+        return ResponseEntity.ok(partnerMapper.toDto(partner));
     }
 
 }

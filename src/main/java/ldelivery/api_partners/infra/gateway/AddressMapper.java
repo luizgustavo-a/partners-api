@@ -1,7 +1,7 @@
 package ldelivery.api_partners.infra.gateway;
 
 import ldelivery.api_partners.domain.geolocation.Address;
-import ldelivery.api_partners.infra.controller.AddressDto;
+import ldelivery.api_partners.infra.controller.dto.AddressDto;
 import ldelivery.api_partners.infra.persistence.AddressEntity;
 
 public class AddressMapper {
@@ -17,7 +17,7 @@ public class AddressMapper {
     }
 
     Address toDomain (AddressEntity addressEntity) {
-        return new Address("Point", addressEntity.getAdress());
+        return new Address("Point", addressEntity.getAddress());
     }
 
     public AddressEntity toEntity (Address address) {

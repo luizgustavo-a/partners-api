@@ -1,19 +1,18 @@
 package ldelivery.api_partners.infra.gateway;
 
+import jakarta.persistence.EntityNotFoundException;
 import ldelivery.api_partners.application.gateway.PartnerRepository;
 import ldelivery.api_partners.domain.entities.partner.Partner;
 import ldelivery.api_partners.infra.persistence.PartnerEntity;
 import ldelivery.api_partners.infra.persistence.PartnerRepositoryPersistence;
-import jakarta.persistence.EntityNotFoundException;
+import ldelivery.api_partners.infra.persistence.PartnerSpecifications;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class PartnerRepositoryJpa implements PartnerRepository {
 
@@ -44,38 +43,49 @@ public class PartnerRepositoryJpa implements PartnerRepository {
     }
 
     @Override
-    public Page<Partner> loadAllPartners(@PageableDefault Pageable pageable) {
+    public Page<Partner> loadAllPartners(Pageable pageable) {
         return repository.findAllByActiveTrue(pageable).map(mapper::toDomain);
     }
 
     @Override
-    public List<Partner> searchPartnersInAddress(Double latitude, Double longitude) {
-        ClosestPartnerCalculator calculator = new ClosestPartnerCalculator(repository);
+    public Page<Partner> searchPartnersInAddress(Double latitude, Double longitude, Pageable pageable) {
         Point coordinates = GeoJsonConverter.toPoint(latitude, longitude);
-        return repository.findAllByActiveTrue()
+
+        var page = repository.findAll(PartnerSpecifications.containsCoordinate(coordinates), pageable);
+
+        var filtered = page
                 .stream()
-                .filter(p -> calculator.containsCoordinate(p.getCoverageArea().getCoverageArea(), coordinates))
+                .filter(PartnerEntity::getActive)
                 .map(mapper::toDomain)
-                .collect(Collectors.toList());
+                .toList();
+
+        return new PageImpl<>(filtered, pageable, filtered.size());
     }
 
     @Override
-    public Partner searchPartner(Double latitude, Double longitude) {
-        ClosestPartnerCalculator calculator = new ClosestPartnerCalculator(repository);
-        Optional<Partner> closestPartner = Optional.ofNullable(calculator.calculateClosestPartner(latitude, longitude));
+    public Partner searchClosestPartner(Double latitude, Double longitude) {
+        Point coordinates = GeoJsonConverter.toPoint(latitude, longitude);
+        var page = repository.findAll(PartnerSpecifications.closestPartner(coordinates));
+
+        Optional<Partner> closestPartner = Optional.ofNullable(page.get(0)).map(mapper::toDomain);
+
         return closestPartner.orElseThrow(() ->
                 new EntityNotFoundException("No partner found close to the coordinated provided."));
     }
 
     @Override
-    public void updatePartner(Partner partner) {
+    public Partner updatePartner(Partner partner) {
         var searchPartner = repository.findByIdAndActiveTrue(partner.getId()).get();
         searchPartner.updatePartner(partner);
+
+        return mapper.toDomain(searchPartner);
     }
 
     @Override
-    public void deletePartner(Long id) {
+    public Partner deletePartner(Long id) {
        var partner = repository.findByIdAndActiveTrue(id);
        partner.ifPresent(PartnerEntity::delete);
+
+       return partner.map(mapper::toDomain).orElseThrow(() -> new NoSuchElementException("Partner not found."));
     }
 }

@@ -16,7 +16,7 @@ public class AddressEntity {
 
     public AddressEntity(){}
 
-    public Point getAdress() {
+    public Point getAddress() {
         return address;
     }
 }

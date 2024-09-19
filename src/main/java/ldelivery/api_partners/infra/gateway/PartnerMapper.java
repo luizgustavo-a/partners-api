@@ -1,8 +1,8 @@
 package ldelivery.api_partners.infra.gateway;
 
 import ldelivery.api_partners.domain.entities.partner.Partner;
-import ldelivery.api_partners.infra.controller.PartnerDto;
-import ldelivery.api_partners.infra.controller.UpdatePartnerDto;
+import ldelivery.api_partners.infra.controller.dto.PartnerDto;
+import ldelivery.api_partners.infra.controller.dto.UpdatePartnerDto;
 import ldelivery.api_partners.infra.persistence.PartnerEntity;
 
 public class PartnerMapper {
@@ -30,9 +30,12 @@ public class PartnerMapper {
     }
 
     public Partner toDomain (UpdatePartnerDto dto) {
-        return new Partner(dto.id(), dto.tradingName(), dto.ownerName(), null,
-                coverageAreaMapper.toDomain(dto.coverageArea()),
-                addressMapper.toDomain(dto.address()));
+        return new Partner(dto.id(),
+                dto.tradingName(),
+                dto.ownerName(),
+                null,
+                dto.coverageArea() != null ? coverageAreaMapper.toDomain(dto.coverageArea()) : null,
+                dto.coverageArea() != null ? addressMapper.toDomain(dto.address()): null);
     }
 
     public PartnerEntity toEntity (Partner partner) {

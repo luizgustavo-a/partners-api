@@ -1,4 +1,4 @@
-package ldelivery.api_partners.infra.controller;
+package ldelivery.api_partners.infra.controller.dto;
 
 import java.util.List;
 

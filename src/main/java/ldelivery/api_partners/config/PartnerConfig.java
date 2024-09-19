@@ -2,11 +2,11 @@ package ldelivery.api_partners.config;
 
 import ldelivery.api_partners.application.gateway.PartnerRepository;
 import ldelivery.api_partners.application.usecases.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import ldelivery.api_partners.infra.gateway.PartnerMapper;
 import ldelivery.api_partners.infra.gateway.PartnerRepositoryJpa;
 import ldelivery.api_partners.infra.persistence.PartnerRepositoryPersistence;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 @Configuration

@@ -1,7 +1,7 @@
 package ldelivery.api_partners.infra.gateway;
 
 import ldelivery.api_partners.domain.geolocation.CoverageArea;
-import ldelivery.api_partners.infra.controller.CoverageAreaDto;
+import ldelivery.api_partners.infra.controller.dto.CoverageAreaDto;
 import ldelivery.api_partners.infra.persistence.CoverageAreaEntity;
 
 public class CoverageAreaMapper {
