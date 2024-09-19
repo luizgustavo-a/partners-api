@@ -47,19 +47,4 @@ public class Partner {
         return coverageArea;
     }
 
-    public void setTradingName(String tradingName) {
-        this.tradingName = tradingName;
-    }
-
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
-    }
-
-    public void setCoverageArea(CoverageArea coverageArea) {
-        this.coverageArea = coverageArea;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
 }
