@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgis/postgis:latest
+    container_name: postgres_partners
+    environment:
+      POSTGRES_DB: partners
+      POSTGRES_USER: ${POSTGRESQL_DB_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_partners:/var/lib/postgresql/data
+      - ./init_postgis.sql:/docker-entrypoint-initdb.d/init_postgis.sql
+
+volumes:
+  postgres_data_partners:
