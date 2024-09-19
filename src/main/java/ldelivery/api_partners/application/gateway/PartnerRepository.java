@@ -4,8 +4,6 @@ import ldelivery.api_partners.domain.entities.partner.Partner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface PartnerRepository {
 
     Partner createPartner(Partner partner);
@@ -14,12 +12,12 @@ public interface PartnerRepository {
 
     Page<Partner> loadAllPartners(Pageable pageable);
 
-    List<Partner> searchPartnersInAddress(Double latitude, Double longitude);
+    Page<Partner> searchPartnersInAddress(Double latitude, Double longitude, Pageable pageable);
 
-    Partner searchPartner(Double latitude, Double longitude);
+    Partner searchClosestPartner(Double latitude, Double longitude);
 
-    void updatePartner(Partner partner);
+    Partner updatePartner(Partner partner);
 
-    void deletePartner(Long id);
+    Partner deletePartner(Long id);
 
 }

@@ -11,8 +11,8 @@ public class UpdatePartner {
         this.partnerRepository = partnerRepository;
     }
 
-    public void updatePartner (Partner partner) {
-        partnerRepository.updatePartner(partner);
+    public Partner updatePartner (Partner partner) {
+        return partnerRepository.updatePartner(partner);
     }
 
 }

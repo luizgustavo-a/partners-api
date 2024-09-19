@@ -5,8 +5,6 @@ import ldelivery.api_partners.domain.entities.partner.Partner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public class SearchPartner {
 
     private final PartnerRepository partnerRepository;
@@ -16,10 +14,10 @@ public class SearchPartner {
     }
 
     public Partner searchPartner(Double latitude, Double longitude) {
-        return partnerRepository.searchPartner(latitude, longitude);
+        return partnerRepository.searchClosestPartner(latitude, longitude);
     }
 
-    public List<Partner> searchPartnersInAddress(Double latitude, Double longitude){
-        return partnerRepository.searchPartnersInAddress(latitude, longitude);
+    public Page<Partner> searchPartnersInAddress(Double latitude, Double longitude, Pageable pageable){
+        return partnerRepository.searchPartnersInAddress(latitude, longitude, pageable);
     }
 }
