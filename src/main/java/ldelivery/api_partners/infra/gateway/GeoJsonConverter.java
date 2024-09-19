@@ -10,24 +10,27 @@ public class GeoJsonConverter {
     private static final GeometryFactory geometryFactory = new GeometryFactory();
 
     public static MultiPolygon toMultiPolygon(List<List<List<List<Double>>>> coordinates) {
-        Polygon[] polygons = coordinates.stream()
-                .map(GeoJsonConverter::toPolygon)
-                .toArray(Polygon[]::new);
+        Polygon[] polygons = new Polygon[coordinates.size()];
+        for (int i = 0; i < coordinates.size(); i++) {
+            polygons[i] = toPolygon(coordinates.get(i));
+        }
         return geometryFactory.createMultiPolygon(polygons);
     }
 
     private static Polygon toPolygon(List<List<List<Double>>> polygonCoords) {
-        LinearRing linearRing = toLinearRing(polygonCoords.get(0));
-        LinearRing[] linearRings = polygonCoords.subList(1, polygonCoords.size()).stream()
-                .map(GeoJsonConverter::toLinearRing)
-                .toArray(LinearRing[]::new);
-        return geometryFactory.createPolygon(linearRing, linearRings);
+        LinearRing exteriorRing = toLinearRing(polygonCoords.get(0));
+        LinearRing[] interiorRings = new LinearRing[polygonCoords.size() - 1];
+        for (int i = 1; i < polygonCoords.size(); i++) {
+            interiorRings[i - 1] = toLinearRing(polygonCoords.get(i));
+        }
+        return geometryFactory.createPolygon(exteriorRing, interiorRings);
     }
 
     private static LinearRing toLinearRing(List<List<Double>> ringCoords) {
-        Coordinate[] coordinates = ringCoords.stream()
-                .map(c -> new Coordinate(c.get(0), c.get(1)))
-                .toArray(Coordinate[]::new);
+        Coordinate[] coordinates = new Coordinate[ringCoords.size()];
+        for (int i = 0; i < ringCoords.size(); i++) {
+            coordinates[i] = new Coordinate(ringCoords.get(i).get(0), ringCoords.get(i).get(1));
+        }
         return geometryFactory.createLinearRing(coordinates);
     }
 
@@ -40,7 +43,7 @@ public class GeoJsonConverter {
     }
 
     public static List<List<List<List<Double>>>> toCoordinates(MultiPolygon multiPolygon) {
-        List<List<List<List<Double>>>> coordinates = new ArrayList<>();
+        List<List<List<List<Double>>>> coordinates = new ArrayList<>(multiPolygon.getNumGeometries());
         for (int i = 0; i < multiPolygon.getNumGeometries(); i++) {
             Polygon polygon = (Polygon) multiPolygon.getGeometryN(i);
             coordinates.add(toCoordinates(polygon));
@@ -49,7 +52,7 @@ public class GeoJsonConverter {
     }
 
     private static List<List<List<Double>>> toCoordinates(Polygon polygon) {
-        List<List<List<Double>>> coordinates = new ArrayList<>();
+        List<List<List<Double>>> coordinates = new ArrayList<>(polygon.getNumInteriorRing() + 1);
         coordinates.add(toCoordinates((LinearRing) polygon.getExteriorRing()));
         for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
             coordinates.add(toCoordinates((LinearRing) polygon.getInteriorRingN(i)));
@@ -58,9 +61,10 @@ public class GeoJsonConverter {
     }
 
     private static List<List<Double>> toCoordinates(LinearRing ring) {
-        List<List<Double>> coordinates = new ArrayList<>();
-        for (Coordinate coordinate : ring.getCoordinates()) {
-            List<Double> point = new ArrayList<>();
+        Coordinate[] ringCoordinates = ring.getCoordinates();
+        List<List<Double>> coordinates = new ArrayList<>(ringCoordinates.length);
+        for (Coordinate coordinate : ringCoordinates) {
+            List<Double> point = new ArrayList<>(2);
             point.add(coordinate.getX());
             point.add(coordinate.getY());
             coordinates.add(point);
@@ -69,7 +73,7 @@ public class GeoJsonConverter {
     }
 
     public static List<Double> toCoordinates(Point point) {
-        List<Double> coordinates = new ArrayList<>();
+        List<Double> coordinates = new ArrayList<>(2);
         coordinates.add(point.getX());
         coordinates.add(point.getY());
         return coordinates;
