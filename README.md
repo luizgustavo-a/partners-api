@@ -9,6 +9,7 @@ This is the API Rest of this project developed following the Clean Code Architec
 
 - CRUD of Partners;
 - Calculation of the closest Partner to certain address;
+- List of Partners attending to certain address.
 
 ---
 
