@@ -1,7 +1,21 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: l_delivery_partners_app
+    environment:
+      POSTGRESQL_DB_HOST: postgres
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
   postgres:
     image: postgis/postgis:latest
-    container_name: postgres_partners
+    container_name: postgres_partners_db
     environment:
       POSTGRES_DB: partners
       POSTGRES_USER: ${POSTGRESQL_DB_USER}
