@@ -102,4 +102,4 @@ Remove a partner from the database.
 
 ## 📝 Authorship
 
-This project was developed by Luiz Almeida as a personal study.
+This project was based on the [Zé Code Backend Challange](https://github.com/ab-inbev-ze-company/ze-code-challenges/blob/master/backend.md) and was developed by Luiz Almeida as a personal study.
